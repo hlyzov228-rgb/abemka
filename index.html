@@ -33,51 +33,91 @@ body {
   from { transform: scale(1); }
   to { transform: scale(1.1); }
 }
+#result {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: black;
+  z-index: 999;
+}
+#result img {
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: 20px;
+  border: 5px solid red;
+}
+#result h1 {
+  color: red;
+  font-size: 80px;
+  text-align: center;
+  margin-top: 20px;
+  text-shadow: 0 0 20px red;
+  animation: blink 0.5s infinite;
+}
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
 </style>
 </head>
 <body>
-<div id="content">🎁 ТЫ ВЫИГРАЛ ПРИЗ! 🎁</div>
-<button id="btn">👉 ЗАБРАТЬ ПОДАРОК 👈</button>
 
-<!-- НОВЫЙ ИСТОЧНИК ЗВУКА (надёжный) -->
+<div id="content">🎁 ПРИВЕТ, ТОЛИК! 🎁</div>
+<button id="btn">👉 НАЖМИ СЮДА 👈</button>
+
+<!-- Скрытый блок с результатом -->
+<div id="result">
+  <img src="tolik.jpg" alt="Толик">
+  <h1>ТОЛИК УЕБАН!</h1>
+</div>
+
+<!-- Звук -->
 <audio id="scary" preload="auto" loop>
   <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 document.getElementById('btn').onclick = function() {
+  // Звук
   var audio = document.getElementById('scary');
   audio.volume = 1;
   audio.play();
-  document.body.style.backgroundImage = "url('https://i.imgur.com/4tR6X8D.jpeg')";
-  document.body.style.backgroundSize = "cover";
-  document.getElementById('content').innerHTML = "👻 BOO!";
-  document.getElementById('content').style.color = "red";
-  document.getElementById('content').style.fontSize = "100px";
-  document.getElementById('btn').style.display = "none";
+  
+  // Показываем фото и надпись
+  document.getElementById('result').style.display = 'flex';
+  document.getElementById('content').style.display = 'none';
+  document.getElementById('btn').style.display = 'none';
+  
+  // Вибрация
   if (navigator.vibrate) navigator.vibrate(500);
   
-  // Блокировка кнопки "Назад"
+  // Блокировка выхода
   window.history.pushState(null, null, window.location.href);
   window.onpopstate = function() {
     audio.play();
-    alert("🔊 НЕ ПЫТАЙСЯ ВЫЙТИ! ДОСМОТРИ ДО КОНЦА!");
+    alert("🔊 НЕ ПЫТАЙСЯ ВЫЙТИ!");
     window.history.pushState(null, null, window.location.href);
   };
   
-  // Блокировка закрытия вкладки
   window.onbeforeunload = function(e) {
     audio.play();
     e.preventDefault();
-    e.returnValue = 'Ты уверен? Это будет стоить тебе 100 рублей!';
-    return 'Ты уверен? Это будет стоить тебе 100 рублей!';
+    e.returnValue = 'Ты уверен?';
+    return 'Ты уверен?';
   };
   
-  // Защита от случайного нажатия "Назад"
   setInterval(function() {
     window.history.pushState(null, null, window.location.href);
   }, 3000);
 };
 </script>
+
 </body>
 </html>
