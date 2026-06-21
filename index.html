@@ -38,9 +38,12 @@ body {
 <body>
 <div id="content">🎁 ТЫ ВЫИГРАЛ ПРИЗ! 🎁</div>
 <button id="btn">👉 ЗАБРАТЬ ПОДАРОК 👈</button>
+
+<!-- НОВЫЙ ИСТОЧНИК ЗВУКА (надёжный) -->
 <audio id="scary" preload="auto" loop>
-<source src="https://www.myinstants.com/media/sounds/earrape-sound-effect.mp3" type="audio/mpeg">
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
 </audio>
+
 <script>
 document.getElementById('btn').onclick = function() {
   var audio = document.getElementById('scary');
